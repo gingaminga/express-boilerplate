@@ -1,6 +1,6 @@
 import CheckInfoResponseDTO from "@dto/responses/info/check-info.response.dto";
 import { injectable } from "inversify";
-import os from "os";
+import os from "node:os";
 
 export interface IInfoService {
   info(memory?: boolean, name?: boolean, uptime?: boolean): CheckInfoResponseDTO;

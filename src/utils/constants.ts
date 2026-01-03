@@ -1,18 +1,18 @@
 export const PROJECT = {
+  NAME: process.env.PROJECT_NAME || "SAMPLE",
   NODE_ENV: process.env.NODE_ENV || "development",
   PORT: Number(process.env.PORT || 3001), // 서버 포트
-  NAME: process.env.PROJECT_NAME || "SAMPLE",
 };
 
 export const LOG = {
   LEVEL: {
-    ERROR: "error",
-    WARN: "warn",
-    INFO: "info",
-    HTTP: "http",
-    VERBOSE: "verbose",
     DEBUG: "debug",
+    ERROR: "error",
+    HTTP: "http",
+    INFO: "info",
     SILLY: "silly",
+    VERBOSE: "verbose",
+    WARN: "warn",
   },
   MAX_COUNT: Number(process.env.LOG_MAX_COUNT || 10),
   MAX_SIZE: Number(process.env.LOG_MAX_SIZE || "10m"),
@@ -20,14 +20,14 @@ export const LOG = {
 };
 
 export const HTTP_STATUS_CODE = {
-  OK: 200,
-  CREATED: 201,
   BAD_REQUEST: 400,
-  UNAUTHORIZED: 401,
+  CREATED: 201,
   FORBIDDEN: 403,
-  NOT_FOUND: 404,
-  INVALID_VALUE: 422,
   INTERNAL_SERVER_ERROR: 500,
+  INVALID_VALUE: 422,
+  NOT_FOUND: 404,
+  OK: 200,
+  UNAUTHORIZED: 401,
 };
 
 export const SSL = {
@@ -37,8 +37,8 @@ export const SSL = {
     KEY_PATH_AND_FILE: process.env.SSL_KEY_PATH_AND_FILE || "",
   },
   PFX: {
-    PFX_PATH_AND_FILE: process.env.SSL_PFX_PATH_AND_FILE || "",
     PASSWORD: process.env.SSL_PFX_PASSWORD || "",
+    PFX_PATH_AND_FILE: process.env.SSL_PFX_PATH_AND_FILE || "",
   },
   TYPE: process.env.SSL_TYPE || "",
   USED: process.env.HTTPS === "true",

@@ -4,8 +4,8 @@ import { ICheckInfoParam } from "@my-types/params/info.param.type";
 import Joi from "joi";
 
 export const checkInfoSchema = Joi.object<ICheckInfoParam>().keys({
-  name: Joi.boolean(),
   memory: Joi.boolean(),
+  name: Joi.boolean(),
   uptime: Joi.boolean(),
 });
 

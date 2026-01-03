@@ -1,10 +1,10 @@
+import logger from "@config/logger.config";
 import { SSL } from "@utils/constants";
 import CError from "@utils/error";
-import logger from "@config/logger.config";
 import { Express } from "express";
-import fs from "fs";
-import http, { Server } from "http";
-import https, { ServerOptions } from "https";
+import fs from "node:fs";
+import http, { Server } from "node:http";
+import https, { ServerOptions } from "node:https";
 
 /**
  * @description 서버 객체 가져오기
@@ -28,7 +28,7 @@ const getServer = (app?: Express) => {
       try {
         // CA 파일은 존재하지 않을 수도 있기 때문에 따로 예외 처리
         config.ca = fs.readFileSync(`${CERT.CA_PATH_AND_FILE}`);
-      } catch (error) {
+      } catch {
         config.ca = "";
       }
 

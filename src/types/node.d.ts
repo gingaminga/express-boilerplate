@@ -1,6 +1,6 @@
 declare namespace NodeJS {
   interface ProcessEnv {
-    HTTPS: "true" | "false";
+    HTTPS: "false" | "true";
     LOG_MAX_COUNT: number;
     LOG_MAX_SIZE: string;
     LOG_PATH: string;
@@ -10,8 +10,8 @@ declare namespace NodeJS {
     SSL_CA_PATH_AND_FILE: string | undefined;
     SSL_CERT_PATH_AND_FILE: string | undefined;
     SSL_KEY_PATH_AND_FILE: string | undefined;
-    SSL_PFX_PATH_AND_FILE: string | undefined;
     SSL_PFX_PASSWORD: string;
+    SSL_PFX_PATH_AND_FILE: string | undefined;
     SSL_TYPE: "crt" | "pfx";
   }
 }

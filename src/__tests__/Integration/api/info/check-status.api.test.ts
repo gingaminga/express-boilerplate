@@ -76,8 +76,8 @@ describe(`POST ${path} API test :)`, () => {
     it(`should respond with the maximum`, async () => {
       // given
       const params = {
-        name: true,
         memory: true,
+        name: true,
         uptime: true,
       };
 

@@ -1,22 +1,37 @@
 import { LOG, PROJECT } from "@utils/constants";
 import colors from "ansi-colors";
-import path from "path";
+import path from "node:path";
 import winston from "winston";
 import WinstonDailyLog from "winston-daily-rotate-file";
 
 const { combine, label, printf, splat, timestamp } = winston.format;
 
 const logFormat = printf((info) => {
-  const { message: logMessage, level: logLevel, label: logLabel, timestamp: logTimestamp } = info;
+  const { label: logLabel, level: logLevel, message: logMessage, timestamp: logTimestamp } = info;
 
   let message = logMessage;
   let level = logLevel;
 
   switch (logLevel) {
+    case LOG.LEVEL.DEBUG: {
+      level = colors.grey(logLevel);
+      message = colors.grey(String(logMessage));
+
+      break;
+    }
     case LOG.LEVEL.ERROR: {
       level = colors.red(logLevel);
       message = colors.red(String(logMessage));
 
+      break;
+    }
+    case LOG.LEVEL.HTTP: {
+      break;
+    }
+    case LOG.LEVEL.SILLY: {
+      break;
+    }
+    case LOG.LEVEL.VERBOSE: {
       break;
     }
     case LOG.LEVEL.WARN: {
@@ -25,20 +40,6 @@ const logFormat = printf((info) => {
 
       break;
     }
-    case LOG.LEVEL.INFO: {
-      level = colors.green(logLevel);
-
-      break;
-    }
-    case LOG.LEVEL.DEBUG: {
-      level = colors.grey(logLevel);
-      message = colors.grey(String(logMessage));
-
-      break;
-    }
-    case LOG.LEVEL.HTTP:
-    case LOG.LEVEL.VERBOSE:
-    case LOG.LEVEL.SILLY:
     default: {
       break;
     }

@@ -1,5 +1,5 @@
 import { InfoService } from "@services/info.service";
-import os from "os";
+import os from "node:os";
 
 jest.mock("os");
 const mockedHostnameFn = jest.mocked(os.hostname);
