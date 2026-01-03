@@ -1,16 +1,19 @@
-import CheckInfoResponseDTO from "@dto/responses/info/check-info.response.dto";
+import CheckInfoParamDTO from "@dto/info/check-info.param.dto";
+import CheckInfoResponseDTO from "@dto/info/check-info.response.dto";
 import { injectable } from "inversify";
-import os from "os";
+import os from "node:os";
 
 export interface IInfoService {
-  info(memory?: boolean, name?: boolean, uptime?: boolean): CheckInfoResponseDTO;
+  info(params: CheckInfoParamDTO): CheckInfoResponseDTO;
 }
 
 @injectable()
 export class InfoService implements IInfoService {
   hostName = os.hostname();
 
-  info(memory?: boolean, name?: boolean, uptime?: boolean) {
+  info(params: CheckInfoParamDTO) {
+    const { memory, name, uptime } = params;
+
     let freeMemory: number | undefined;
     let totalMemory: number | undefined;
     let hostName: string | undefined;

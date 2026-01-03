@@ -65,12 +65,12 @@ export default (req: Request, res: Response, next: NextFunction) => {
   const host = req.get("host");
 
   const url = `${protocol}://${host}${originalUrl}`;
-  const startTime = new Date().getTime();
+  const startTime = Date.now();
 
   requestStartTimeLog(url, method, query, body, params);
 
   onFinished(res, () => {
-    const finishTime = new Date().getTime();
+    const finishTime = Date.now();
     const takenTime = finishTime - startTime; // 소요시간
 
     requestFinishTimeLog(url, method, takenTime);

@@ -1,62 +1,57 @@
 import { LOG, PROJECT } from "@utils/constants";
 import colors from "ansi-colors";
-import path from "path";
+import path from "node:path";
 import winston from "winston";
 import WinstonDailyLog from "winston-daily-rotate-file";
 
 const { combine, label, printf, splat, timestamp } = winston.format;
 
 const logFormat = printf((info) => {
-  let { message, level } = info;
+  const { label: logLabel, level: logLevel, message: logMessage, timestamp: logTimestamp } = info;
 
-  switch (level) {
+  let message = logMessage;
+  let level = logLevel;
+
+  switch (logLevel) {
+    case LOG.LEVEL.DEBUG: {
+      level = colors.grey(logLevel);
+      message = colors.grey(String(logMessage));
+
+      break;
+    }
     case LOG.LEVEL.ERROR: {
-      level = colors.red(level);
-      message = colors.red(message);
+      level = colors.red(logLevel);
+      message = colors.red(String(logMessage));
 
+      break;
+    }
+    case LOG.LEVEL.HTTP: {
+      break;
+    }
+    case LOG.LEVEL.SILLY: {
+      break;
+    }
+    case LOG.LEVEL.VERBOSE: {
       break;
     }
     case LOG.LEVEL.WARN: {
-      level = colors.yellow(level);
-      message = colors.yellow(message);
+      level = colors.yellow(logLevel);
+      message = colors.yellow(String(logMessage));
 
       break;
     }
-    case LOG.LEVEL.INFO: {
-      level = colors.green(level);
-
-      break;
-    }
-    case LOG.LEVEL.DEBUG: {
-      level = colors.grey(level);
-      message = colors.grey(message);
-
-      break;
-    }
-    case LOG.LEVEL.HTTP:
-    case LOG.LEVEL.VERBOSE:
-    case LOG.LEVEL.SILLY:
     default: {
       break;
     }
   }
 
-  return `[${colors.bgRedBright(info.label)}] ${colors.whiteBright(info.timestamp)} [${level}]: ${message}`;
+  return `[${colors.bgRedBright(String(logLabel))}] ${colors.whiteBright(String(logTimestamp))} [${level}]: ${message}`;
 });
 
 const logger = winston.createLogger({
-  format: combine(
-    timestamp({
-      format: "YYYY-MM-DD HH:mm:ss.SSS",
-    }),
-    label({ label: PROJECT.NAME }),
-    splat(),
-    logFormat,
-  ),
+  format: combine(timestamp({ format: "YYYY-MM-DD HH:mm:ss.SSS" }), label({ label: PROJECT.NAME }), splat(), logFormat),
   transports: [
-    new winston.transports.Console({
-      level: PROJECT.NODE_ENV === "production" ? LOG.LEVEL.INFO : LOG.LEVEL.DEBUG,
-    }),
+    new winston.transports.Console({ level: PROJECT.NODE_ENV === "production" ? LOG.LEVEL.INFO : LOG.LEVEL.DEBUG }),
     new WinstonDailyLog({
       datePattern: "YYYYMMDD",
       dirname: path.resolve(__dirname, LOG.PATH),

@@ -1,4 +1,4 @@
-import CheckInfoParamDTO from "@dto/params/info/check-info.param.dto";
+import CheckInfoParamDTO from "@dto/info/check-info.param.dto";
 import { ResponseDTO } from "@my-types/express.type";
 import { checkInfoSchema, checkInfoValidator } from "@validators/info/check-info.validator";
 import { Request } from "express";
