@@ -1,5 +1,5 @@
+import { infoService } from "@config/container.config";
 import CheckInfoParamDTO from "@dto/info/check-info.param.dto";
-import { infoService } from "@loaders/service.loader";
 import { RequestDTOHandler } from "@my-types/express.type";
 
 /**
