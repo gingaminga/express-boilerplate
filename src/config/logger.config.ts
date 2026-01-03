@@ -15,13 +15,13 @@ const logFormat = printf((info) => {
   switch (logLevel) {
     case LOG.LEVEL.ERROR: {
       level = colors.red(logLevel);
-      message = colors.red(logMessage as string);
+      message = colors.red(String(logMessage));
 
       break;
     }
     case LOG.LEVEL.WARN: {
       level = colors.yellow(logLevel);
-      message = colors.yellow(logMessage as string);
+      message = colors.yellow(String(logMessage));
 
       break;
     }
@@ -32,7 +32,7 @@ const logFormat = printf((info) => {
     }
     case LOG.LEVEL.DEBUG: {
       level = colors.grey(logLevel);
-      message = colors.grey(logMessage as string);
+      message = colors.grey(String(logMessage));
 
       break;
     }
@@ -44,7 +44,7 @@ const logFormat = printf((info) => {
     }
   }
 
-  return `[${colors.bgRedBright(logLabel as string)}] ${colors.whiteBright(logTimestamp as string)} [${level}]: ${message}`;
+  return `[${colors.bgRedBright(String(logLabel))}] ${colors.whiteBright(String(logTimestamp))} [${level}]: ${message}`;
 });
 
 const logger = winston.createLogger({
