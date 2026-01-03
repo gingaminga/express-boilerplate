@@ -47,7 +47,8 @@ npm install
 npm run dev
 ```
 
-**완료! 🎉** 이제 `http://localhost:3001`에서 서버가 실행됩니다.
+**완료!  
+🎉** 이제 `http://localhost:3001`에서 서버가 실행됩니다.
 
 ---
 
