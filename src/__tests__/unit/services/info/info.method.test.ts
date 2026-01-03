@@ -1,3 +1,4 @@
+import CheckInfoParamDTO from "@dto/info/check-info.param.dto";
 import { InfoService } from "@services/info.service";
 import os from "node:os";
 
@@ -6,9 +7,6 @@ const mockedHostnameFn = jest.mocked(os.hostname);
 
 describe(`[Info service] info method test :)`, () => {
   let infoService: InfoService;
-  let memory: boolean;
-  let name: boolean;
-  let uptime: boolean;
   const FREE_MEMORY = 10;
   const TOTAL_MEMORY = 100;
   const HOST_NAME = "TEST";
@@ -17,20 +15,17 @@ describe(`[Info service] info method test :)`, () => {
   beforeEach(() => {
     mockedHostnameFn.mockReturnValue(HOST_NAME);
     infoService = new InfoService();
-    memory = false;
-    name = false;
-    uptime = false;
   });
 
   it(`should only memory info`, () => {
     // given
-    memory = true;
+    const paramDTO = new CheckInfoParamDTO({ memory: true });
 
     const freememSpy = jest.spyOn(os, "freemem").mockReturnValue(FREE_MEMORY);
     const totalmemSpy = jest.spyOn(os, "totalmem").mockReturnValue(TOTAL_MEMORY);
 
     // when
-    const serverInfo = infoService.info(memory, name, uptime);
+    const serverInfo = infoService.info(paramDTO);
 
     // then
     expect(freememSpy).toHaveBeenCalled();
@@ -43,10 +38,10 @@ describe(`[Info service] info method test :)`, () => {
 
   it(`should only name info`, () => {
     // given
-    name = true;
+    const paramDTO = new CheckInfoParamDTO({ name: true });
 
     // when
-    const serverInfo = infoService.info(memory, name, uptime);
+    const serverInfo = infoService.info(paramDTO);
 
     // then
     expect(serverInfo.hostName).toBe(HOST_NAME);
@@ -57,12 +52,12 @@ describe(`[Info service] info method test :)`, () => {
 
   it(`should only uptime info`, () => {
     // given
-    uptime = true;
+    const paramDTO = new CheckInfoParamDTO({ uptime: true });
 
     const uptimeSpy = jest.spyOn(os, "uptime").mockReturnValue(UPTIME);
 
     // when
-    const serverInfo = infoService.info(memory, name, uptime);
+    const serverInfo = infoService.info(paramDTO);
 
     // then
     expect(uptimeSpy).toHaveBeenCalled();
@@ -74,15 +69,14 @@ describe(`[Info service] info method test :)`, () => {
 
   it(`should memory, name info`, () => {
     // given
-    memory = true;
-    name = true;
+    const paramDTO = new CheckInfoParamDTO({ memory: true, name: true });
 
     const freememSpy = jest.spyOn(os, "freemem").mockReturnValue(FREE_MEMORY);
     const totalmemSpy = jest.spyOn(os, "totalmem").mockReturnValue(TOTAL_MEMORY);
     mockedHostnameFn.mockReturnValue("TEST");
 
     // when
-    const serverInfo = infoService.info(memory, name, uptime);
+    const serverInfo = infoService.info(paramDTO);
 
     // then
     expect(freememSpy).toHaveBeenCalled();
@@ -95,15 +89,14 @@ describe(`[Info service] info method test :)`, () => {
 
   it(`should memory, uptime info`, () => {
     // given
-    memory = true;
-    uptime = true;
+    const paramDTO = new CheckInfoParamDTO({ memory: true, uptime: true });
 
     const freememSpy = jest.spyOn(os, "freemem").mockReturnValue(FREE_MEMORY);
     const totalmemSpy = jest.spyOn(os, "totalmem").mockReturnValue(TOTAL_MEMORY);
     const uptimeSpy = jest.spyOn(os, "uptime").mockReturnValue(UPTIME);
 
     // when
-    const serverInfo = infoService.info(memory, name, uptime);
+    const serverInfo = infoService.info(paramDTO);
 
     // then
     expect(freememSpy).toHaveBeenCalled();
@@ -117,14 +110,13 @@ describe(`[Info service] info method test :)`, () => {
 
   it(`should name, uptime info`, () => {
     // given
-    name = true;
-    uptime = true;
+    const paramDTO = new CheckInfoParamDTO({ name: true, uptime: true });
 
     mockedHostnameFn.mockReturnValue("TEST");
     const uptimeSpy = jest.spyOn(os, "uptime").mockReturnValue(UPTIME);
 
     // when
-    const serverInfo = infoService.info(memory, name, uptime);
+    const serverInfo = infoService.info(paramDTO);
 
     // then
     expect(uptimeSpy).toHaveBeenCalled();
@@ -136,9 +128,7 @@ describe(`[Info service] info method test :)`, () => {
 
   it(`should all info`, () => {
     // given
-    memory = true;
-    name = true;
-    uptime = true;
+    const paramDTO = new CheckInfoParamDTO({ memory: true, name: true, uptime: true });
 
     const freememSpy = jest.spyOn(os, "freemem").mockReturnValue(FREE_MEMORY);
     const totalmemSpy = jest.spyOn(os, "totalmem").mockReturnValue(TOTAL_MEMORY);
@@ -146,7 +136,7 @@ describe(`[Info service] info method test :)`, () => {
     mockedHostnameFn.mockReturnValue("TEST");
 
     // when
-    const serverInfo = infoService.info(memory, name, uptime);
+    const serverInfo = infoService.info(paramDTO);
 
     // then
     expect(freememSpy).toHaveBeenCalled();
