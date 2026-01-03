@@ -10,8 +10,8 @@ const compat = new FlatCompat({ baseDirectory: __dirname, recommendedConfig: jse
 
 export default [
   jseslint.configs.recommended,
+
   ...tseslint.configs.recommended,
-  ...compat.extends("prettier"),
   {
     rules: {
       "@typescript-eslint/no-explicit-any": "warn",
@@ -24,4 +24,6 @@ export default [
       ],
     },
   },
+
+  ...compat.extends("prettier"),
 ];
