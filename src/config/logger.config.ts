@@ -1,6 +1,6 @@
 import { LOG, PROJECT } from "@utils/constants";
 import colors from "ansi-colors";
-import path from "path";
+import path from "node:path";
 import winston from "winston";
 import WinstonDailyLog from "winston-daily-rotate-file";
 
@@ -38,7 +38,9 @@ const logFormat = printf((info) => {
     }
     case LOG.LEVEL.HTTP:
     case LOG.LEVEL.VERBOSE:
-    case LOG.LEVEL.SILLY:
+    case LOG.LEVEL.SILLY: {
+      break;
+    }
     default: {
       break;
     }

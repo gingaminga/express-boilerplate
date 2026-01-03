@@ -3,6 +3,7 @@ import { fileURLToPath } from "node:url";
 import jseslint from "@eslint/js";
 import { FlatCompat } from "@eslint/eslintrc";
 import tseslint from "typescript-eslint";
+import unicorn from "eslint-plugin-unicorn";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -22,6 +23,24 @@ export default [
           caughtErrorsIgnorePattern: "^_",
         },
       ],
+    },
+  },
+
+  {
+    ...unicorn.configs.recommended,
+    rules: {
+      ...unicorn.configs.recommended.rules,
+      "unicorn/no-anonymous-default-export": ["off"],
+      "unicorn/no-null": ["off"],
+      "unicorn/filename-case": [
+        "error",
+        {
+          cases: {
+            kebabCase: true,
+          },
+        },
+      ],
+      "unicorn/prevent-abbreviations": ["off"],
     },
   },
 
