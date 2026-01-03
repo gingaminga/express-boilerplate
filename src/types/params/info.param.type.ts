@@ -1,5 +1,5 @@
 export interface ICheckInfoParam {
-  name?: boolean;
   memory?: boolean;
+  name?: boolean;
   uptime?: boolean;
 }

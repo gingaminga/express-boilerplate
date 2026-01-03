@@ -1,9 +1,10 @@
+import { FlatCompat } from "@eslint/eslintrc";
+import jseslint from "@eslint/js";
+import perfectionist from "eslint-plugin-perfectionist";
+import unicorn from "eslint-plugin-unicorn";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import jseslint from "@eslint/js";
-import { FlatCompat } from "@eslint/eslintrc";
 import tseslint from "typescript-eslint";
-import unicorn from "eslint-plugin-unicorn";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -30,8 +31,6 @@ export default [
     ...unicorn.configs.recommended,
     rules: {
       ...unicorn.configs.recommended.rules,
-      "unicorn/no-anonymous-default-export": ["off"],
-      "unicorn/no-null": ["off"],
       "unicorn/filename-case": [
         "error",
         {
@@ -40,7 +39,27 @@ export default [
           },
         },
       ],
+      "unicorn/no-anonymous-default-export": ["off"],
+      "unicorn/no-null": ["off"],
       "unicorn/prevent-abbreviations": ["off"],
+    },
+  },
+
+  {
+    ...perfectionist.configs["recommended-alphabetical"],
+    rules: {
+      // ...perfectionist.configs["recommended-alphabetical"].rules,
+
+      "perfectionist/sort-imports": [
+        "error",
+        { partitionByNewLine: true, newlinesBetween: "ignore", newlinesInside: "ignore" },
+      ],
+      "perfectionist/sort-union-types": [
+        "error",
+        {
+          groups: ["named", "keyword", "nullish"],
+        },
+      ],
     },
   },
 
