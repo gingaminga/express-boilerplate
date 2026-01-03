@@ -153,78 +153,19 @@ Request → Middleware → Route → Validator → Controller → Service → Re
 
 ## 📦 새로운 기능 추가하기
 
-### 1. Service 생성
+프로젝트 내에 `info` 관련 예시 코드가 구현되어 있습니다.  
+아래 파일들을 참고하여 새로운 기능을 추가하세요:
 
-```typescript
-// src/services/user.service.ts
-import { injectable } from "inversify";
-
-@injectable()
-export class UserService {
-  getUser(id: string) {
-    // 비즈니스 로직
-  }
-}
-```
-
-### 2. Controller 생성
-
-```typescript
-// src/controllers/user/get-user.controller.ts
-import { Request, Response } from "express";
-
-export const getUserController = (req: Request, res: Response) => {
-  // 컨트롤러 로직
-};
-```
-
-### 3. Validator 생성
-
-```typescript
-// src/validators/user/get-user.validator.ts
-import Joi from "joi";
-
-export const getUserValidator = Joi.object({
-  id: Joi.string().required(),
-});
-```
-
-### 4. Route 등록
-
-```typescript
-// src/routes/user.route.ts
-import { Router } from 'express';
-
-const router = Router();
-router.get('/:id', /* validator */, /* controller */);
-
-export default router;
-```
+- **Service**: `src/services/info.service.ts`
+- **Controller**: `src/controllers/info/check-info.controller.ts`
+- **DTO**: `src/dto/info/`
+- **Validator**: `src/validators/info/check-info.validator.ts`
+- **Route**: `src/routes/info.route.ts`
 
 ## 🧪 테스트 작성
 
-### Unit Test
+프로젝트 내에 테스트 예시가 구현되어 있습니다.  
+아래 파일들을 참고하여 테스트를 작성하세요:
 
-```typescript
-// src/__tests__/unit/services/user.service.test.ts
-describe("UserService", () => {
-  it("should return user", () => {
-    // 테스트 코드
-  });
-});
-```
-
-### Integration Test
-
-```typescript
-// src/__tests__/integration/api/user.test.ts
-import request from "supertest";
-import app from "@/app";
-
-describe("GET /api/user/:id", () => {
-  it("should return 200", async () => {
-    const response = await request(app).get("/api/user/1");
-    expect(response.status).toBe(200);
-  });
-});
-```
+- **Unit Test**: `src/__tests__/unit/services/info.service.test.ts`
+- **Integration Test**: `src/__tests__/integration/api/info.test.ts`
