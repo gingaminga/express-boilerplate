@@ -28,7 +28,7 @@ const getServer = (app?: Express) => {
       try {
         // CA 파일은 존재하지 않을 수도 있기 때문에 따로 예외 처리
         config.ca = fs.readFileSync(`${CERT.CA_PATH_AND_FILE}`);
-      } catch (error) {
+      } catch (_error) {
         config.ca = "";
       }
 
