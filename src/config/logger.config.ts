@@ -7,29 +7,32 @@ import WinstonDailyLog from "winston-daily-rotate-file";
 const { combine, label, printf, splat, timestamp } = winston.format;
 
 const logFormat = printf((info) => {
-  let { message, level } = info;
+  const { message: logMessage, level: logLevel, label: logLabel, timestamp: logTimestamp } = info;
 
-  switch (level) {
+  let message = logMessage;
+  let level = logLevel;
+
+  switch (logLevel) {
     case LOG.LEVEL.ERROR: {
-      level = colors.red(level);
-      message = colors.red(message);
+      level = colors.red(logLevel);
+      message = colors.red(String(logMessage));
 
       break;
     }
     case LOG.LEVEL.WARN: {
-      level = colors.yellow(level);
-      message = colors.yellow(message);
+      level = colors.yellow(logLevel);
+      message = colors.yellow(String(logMessage));
 
       break;
     }
     case LOG.LEVEL.INFO: {
-      level = colors.green(level);
+      level = colors.green(logLevel);
 
       break;
     }
     case LOG.LEVEL.DEBUG: {
-      level = colors.grey(level);
-      message = colors.grey(message);
+      level = colors.grey(logLevel);
+      message = colors.grey(String(logMessage));
 
       break;
     }
@@ -41,22 +44,13 @@ const logFormat = printf((info) => {
     }
   }
 
-  return `[${colors.bgRedBright(info.label)}] ${colors.whiteBright(info.timestamp)} [${level}]: ${message}`;
+  return `[${colors.bgRedBright(String(logLabel))}] ${colors.whiteBright(String(logTimestamp))} [${level}]: ${message}`;
 });
 
 const logger = winston.createLogger({
-  format: combine(
-    timestamp({
-      format: "YYYY-MM-DD HH:mm:ss.SSS",
-    }),
-    label({ label: PROJECT.NAME }),
-    splat(),
-    logFormat,
-  ),
+  format: combine(timestamp({ format: "YYYY-MM-DD HH:mm:ss.SSS" }), label({ label: PROJECT.NAME }), splat(), logFormat),
   transports: [
-    new winston.transports.Console({
-      level: PROJECT.NODE_ENV === "production" ? LOG.LEVEL.INFO : LOG.LEVEL.DEBUG,
-    }),
+    new winston.transports.Console({ level: PROJECT.NODE_ENV === "production" ? LOG.LEVEL.INFO : LOG.LEVEL.DEBUG }),
     new WinstonDailyLog({
       datePattern: "YYYYMMDD",
       dirname: path.resolve(__dirname, LOG.PATH),
