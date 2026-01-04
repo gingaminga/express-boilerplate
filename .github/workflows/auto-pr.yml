@@ -8,8 +8,8 @@ permissions:
 on:
   push:
     branches:
-      - "feature/BOIL-*"
-      - "fix/BOIL-*"
+      - "feature/WOWME-*"
+      - "fix/WOWME-*"
 
 jobs:
   auto-pr:
