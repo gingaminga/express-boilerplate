@@ -4,8 +4,6 @@ on:
   pull_request:
     branches:
       - main
-    paths:
-      - "package.json"
 
 jobs:
   check-version:
@@ -29,15 +27,15 @@ jobs:
           # PR 브랜치의 버전 추출
           pr_version=$(jq -r '.version' pr-branch/package.json)
           echo "PR 브랜치 버전: $pr_version"
-          
+
           # main 브랜치의 버전 추출
           main_version=$(jq -r '.version' main-branch/package.json)
           echo "main 브랜치 버전: $main_version"
-          
+
           # 환경 변수에 저장
           echo "pr_version=$pr_version" >> $GITHUB_OUTPUT
           echo "main_version=$main_version" >> $GITHUB_OUTPUT
-          
+
           # 버전 비교
           if [ "$pr_version" == "$main_version" ]; then
             echo "result=fail" >> $GITHUB_OUTPUT
@@ -56,7 +54,7 @@ jobs:
             const result = '${{ steps.version-check.outputs.result }}';
             const mainVersion = '${{ steps.version-check.outputs.main_version }}';
             const prVersion = '${{ steps.version-check.outputs.pr_version }}';
-            
+
             let body;
             if (result === 'fail') {
               body = `## ❌ 버전 체크 실패
@@ -73,7 +71,7 @@ jobs:
 
               버전이 정상적으로 업데이트되었습니다.`;
             }
-            
+
             await github.rest.issues.createComment({
               owner: context.repo.owner,
               repo: context.repo.repo,
