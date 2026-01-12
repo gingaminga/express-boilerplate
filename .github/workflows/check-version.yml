@@ -22,7 +22,6 @@ jobs:
           path: main-branch
 
       - name: package.json 버전 비교
-        id: version-check
         run: |
           # PR 브랜치의 버전 추출
           pr_version=$(jq -r '.version' pr-branch/package.json)
@@ -32,49 +31,10 @@ jobs:
           main_version=$(jq -r '.version' main-branch/package.json)
           echo "main 브랜치 버전: $main_version"
 
-          # 환경 변수에 저장
-          echo "pr_version=$pr_version" >> $GITHUB_OUTPUT
-          echo "main_version=$main_version" >> $GITHUB_OUTPUT
-
           # 버전 비교
           if [ "$pr_version" == "$main_version" ]; then
-            echo "result=fail" >> $GITHUB_OUTPUT
-            echo "message=❌ package.json의 버전이 변경되지 않았습니다." >> $GITHUB_OUTPUT
+            echo "❌ package.json의 버전이 변경되지 않았습니다."
             exit 1
           else
-            echo "result=success" >> $GITHUB_OUTPUT
-            echo "message=✅ package.json의 버전이 업데이트되었습니다." >> $GITHUB_OUTPUT
+            echo "✅ package.json의 버전이 업데이트되었습니다."
           fi
-
-      - name: PR에 결과 코멘트 추가
-        if: always()
-        uses: actions/github-script@v7
-        with:
-          script: |
-            const result = '${{ steps.version-check.outputs.result }}';
-            const mainVersion = '${{ steps.version-check.outputs.main_version }}';
-            const prVersion = '${{ steps.version-check.outputs.pr_version }}';
-
-            let body;
-            if (result === 'fail') {
-              body = `## ❌ 버전 체크 실패
-
-              **main 브랜치 버전**: \`${mainVersion}\`
-              **PR 브랜치 버전**: \`${prVersion}\`
-
-              ⚠️ package.json의 버전을 업데이트해주세요.`;
-            } else {
-              body = `## ✅ 버전 체크 성공
-
-              **main 브랜치 버전**: \`${mainVersion}\`
-              **PR 브랜치 버전**: \`${prVersion}\` (업데이트됨)
-
-              버전이 정상적으로 업데이트되었습니다.`;
-            }
-
-            await github.rest.issues.createComment({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: context.issue.number,
-              body: body
-            });
