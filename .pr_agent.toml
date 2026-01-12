@@ -5,3 +5,6 @@ response_language = "ko-KR"
 
 [github_app]
 handle_push_trigger = true
+pr_commands = [
+   "/description",  "/review"
+]
