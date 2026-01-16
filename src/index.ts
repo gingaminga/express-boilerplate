@@ -11,4 +11,5 @@ const server = getServer(app);
 
 server.listen(PORT, () => {
   logger.info(`Start service on ${PORT} port!`);
+  console.log("테스트");
 });
